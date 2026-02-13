@@ -6,7 +6,13 @@ local KeyInput = ""
 
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 
+local Window = nil
+
 function StartMainScript()
+    if game:GetService("CoreGui"):FindFirstChild("KenkitGui") then
+        game:GetService("CoreGui").KenkitGui:Destroy()
+    end
+
     local ScreenGui = Instance.new("ScreenGui")
     local ImageButton = Instance.new("ImageButton")
     local UICorner = Instance.new("UICorner")
@@ -17,30 +23,14 @@ function StartMainScript()
     ImageButton.Parent = ScreenGui
     ImageButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     ImageButton.Position = UDim2.new(0.1, 0, 0.15, 0)
-    ImageButton.Size = UDim2.new(0, 45, 0, 45)
+    ImageButton.Size = UDim2.new(0, 50, 0, 50) -- Tăng nhẹ kích thước nút icon cho cân đối
     ImageButton.Image = "rbxassetid://112847886551666"
-    ImageButton.BackgroundTransparency = 1 
-    ImageButton.ImageTransparency = 1
+    ImageButton.ZIndex = 10 
 
     UICorner.CornerRadius = UDim.new(1, 0) 
     UICorner.Parent = ImageButton
 
-    TweenService:Create(ImageButton, TweenInfo.new(1), {BackgroundTransparency = 0, ImageTransparency = 0}):Play()
-
-    ImageButton.MouseEnter:Connect(function()
-        TweenService:Create(ImageButton, TweenInfo.new(0.3), {Size = UDim2.new(0, 52, 0, 52), BackgroundColor3 = Color3.fromRGB(30, 30, 30)}):Play()
-    end)
-    ImageButton.MouseLeave:Connect(function()
-        TweenService:Create(ImageButton, TweenInfo.new(0.3), {Size = UDim2.new(0, 45, 0, 45), BackgroundColor3 = Color3.fromRGB(0, 0, 0)}):Play()
-    end)
-    
     local dragging, dragInput, dragStart, startPos
-    local function update(input)
-        local delta = input.Position - dragStart
-        local targetPos = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-        TweenService:Create(ImageButton, TweenInfo.new(0.15, Enum.EasingStyle.Quint), {Position = targetPos}):Play()
-    end
-
     ImageButton.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
             dragging = true
@@ -52,23 +42,24 @@ function StartMainScript()
         end
     end)
     UserInputService.InputChanged:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-            if dragging then update(input) end
+        if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+            local delta = input.Position - dragStart
+            ImageButton.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
         end
     end)
 
-    local Window = Fluent:CreateWindow({
+    Window = Fluent:CreateWindow({
         Title = "Kenkit Tổng Hợp",
         SubTitle = "by Gia Bao Dep Trai",
         TabWidth = 157,
-        Size = UDim2.fromOffset(580, 400), -- Tăng kích thước menu chính
+        Size = UDim2.fromOffset(580, 400),
         Acrylic = true,
         Theme = "Dark",
         MinimizeKey = Enum.KeyCode.End
     })
 
     ImageButton.MouseButton1Click:Connect(function()
-        Window:Minimize()
+        Window:Minimize() 
     end)
 
     local Tabs = {
@@ -95,46 +86,6 @@ end
 
 local KeyWindow = Fluent:CreateWindow({
     Title = "Hệ Thống Xác Thực",
-    SubTitle = "Kenkit Hub - Gia Bảo Đẹp Trai",
+    SubTitle = "Kenkit Hub - Protection",
     TabWidth = 160,
-    Size = UDim2.fromOffset(500, 350), -- BẢNG KEY TO HƠN (Cũ là 400x230)
-    Acrylic = true,
-    Theme = "Dark"
-})
-
-local KeyTab = KeyWindow:AddTab({ Title = "Nhập Key", Icon = "key" })
-
-local KeyInputObject = KeyTab:AddInput("InputKey", {
-    Title = "Vui lòng nhập mã Key:",
-    Default = "",
-    Placeholder = "Nhập mã xác nhận tại đây...",
-    Callback = function(Value)
-        KeyInput = Value
-    end
-})
-
-KeyTab:AddButton({
-    Title = "Xác nhận Key",
-    Description = "Bấm vào đây sau khi đã nhập đúng mã",
-    Callback = function()
-        -- In ra console để debug nếu cần (nhấn F9 trong game)
-        print("Key ban nhap la: " .. tostring(KeyInput))
-        
-        if KeyInput == CorrectKey then
-            Fluent:Notify({ Title = "Thành công", Content = "Đang mở menu chính...", Duration = 3 })
-            KeyWindow:Destroy()
-            -- Chờ 0.5 giây để tránh lỗi chồng chéo UI
-            task.wait(0.5)
-            StartMainScript()
-        else
-            Fluent:Notify({ 
-                Title = "Thất bại", 
-                Content = "Mã Key '" .. tostring(KeyInput) .. "' không đúng!", 
-                Duration = 5 
-            })
-        end
-    end
-})
-
--- Thông báo khi load script
-Fluent:Notify({ Title = "Xác thực", Content = "Vui lòng nhập Key để sử dụng Kenkit Hub", Duration = 5 })
+    Size = UDim2.fromOffset(600, 400), -- KÍCH THƯỚC SIÊU TO Ở
