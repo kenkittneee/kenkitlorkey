@@ -88,4 +88,4 @@ local KeyWindow = Fluent:CreateWindow({
     Title = "Hệ Thống Xác Thực",
     SubTitle = "Kenkit Hub - Protection",
     TabWidth = 160,
-    Size = UDim2.fromOffset(600, 400), -- KÍCH THƯỚC SIÊU TO Ở
+    Size = UDim2.fromOffset(600, 400)
