@@ -12,13 +12,14 @@ function StartMainScript()
     local UICorner = Instance.new("UICorner")
 
     ScreenGui.Parent = game:GetService("CoreGui")
+    ScreenGui.Name = "KenkitGui"
     
     ImageButton.Parent = ScreenGui
     ImageButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     ImageButton.Position = UDim2.new(0.1, 0, 0.15, 0)
     ImageButton.Size = UDim2.new(0, 45, 0, 45)
     ImageButton.Image = "rbxassetid://112847886551666"
-    ImageButton.BackgroundTransparency = 1 -- Bắt đầu bằng việc tàng hình để làm hiệu ứng hiện hình
+    ImageButton.BackgroundTransparency = 1 
     ImageButton.ImageTransparency = 1
 
     UICorner.CornerRadius = UDim.new(1, 0) 
@@ -29,15 +30,12 @@ function StartMainScript()
     ImageButton.MouseEnter:Connect(function()
         TweenService:Create(ImageButton, TweenInfo.new(0.3), {Size = UDim2.new(0, 52, 0, 52), BackgroundColor3 = Color3.fromRGB(30, 30, 30)}):Play()
     end)
-
     ImageButton.MouseLeave:Connect(function()
         TweenService:Create(ImageButton, TweenInfo.new(0.3), {Size = UDim2.new(0, 45, 0, 45), BackgroundColor3 = Color3.fromRGB(0, 0, 0)}):Play()
     end)
-
     ImageButton.MouseButton1Down:Connect(function()
         TweenService:Create(ImageButton, TweenInfo.new(0.1), {Size = UDim2.new(0, 38, 0, 38)}):Play()
     end)
-
     ImageButton.MouseButton1Up:Connect(function()
         TweenService:Create(ImageButton, TweenInfo.new(0.1), {Size = UDim2.new(0, 45, 0, 45)}):Play()
     end)
@@ -59,13 +57,11 @@ function StartMainScript()
             end)
         end
     end)
-
     ImageButton.InputChanged:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
             dragInput = input
         end
     end)
-
     UserInputService.InputChanged:Connect(function(input)
         if input == dragInput and dragging then update(input) end
     end)
@@ -93,11 +89,11 @@ function StartMainScript()
         Main5 = Window:AddTab({ Title = "Script Meme Sea", Icon = "smile" })
     }
 
-    Tabs.Main0:AddParagraph({Title = "Chào mừng!", Content = "Hệ thống Animation đã được kích hoạt cho Gia Bảo!"})
+    Tabs.Main0:AddParagraph({Title = "Chào mừng!", Content = "Hệ thống đã sẵn sàng cho Gia Bảo!"})
 
-    -- (Phần AddButton các Tab giữ nguyên như cũ để tiết kiệm chỗ...)
     Tabs.Main1:AddButton({Title = "Trau v9", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/trungdao2k4/buffalo/refs/heads/main/traurobloxv9.lua"))() end})
     Tabs.Main1:AddButton({Title = "Andepzai hub", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/AnDepZaiHub/AnDepZaiHubBeta/refs/heads/main/AnDepZaiHubBeta.lua"))() end})
+    Tabs.Main1:AddButton({Title = "Quantum hub" , Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/flazhy/QuantumOnyx/refs/heads/main/QuantumOnyx.lua"))()
     Tabs.Main2:AddButton({Title = "Kaitun (Lever)", Callback = function() loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/4365e6ab3c80828a24ba946f4d8ff946.lua"))() end})
     Tabs.Main3:AddButton({Title = "Hermanos hub", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/hermanos-dev/hermanos-hub/refs/heads/main/Loader.lua"))() end})
     Tabs.Main4:AddButton({Title = "Cyrus hub", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/CyrusOffc/scriptcyrus/refs/heads/main/roblox/loader.lua"))() end})
@@ -117,20 +113,25 @@ local KeyWindow = Fluent:CreateWindow({
 
 local KeyTab = KeyWindow:AddTab({ Title = "Nhập Key", Icon = "key" })
 
-KeyTab:AddInput("InputKey", {
+local KeyInputObject = KeyTab:AddInput("InputKey", {
     Title = "Vui lòng nhập mã Key:",
-    Callback = function(Value) KeyInput = Value end
+    Default = "",
+    Placeholder = "Nhập Key tại đây...",
+    Callback = function(Value)
+        KeyInput = Value -- Cập nhật KeyInput mỗi khi gõ
+    end
 })
 
 KeyTab:AddButton({
     Title = "Xác nhận Key",
     Callback = function()
+        -- Kiểm tra key có khớp không
         if KeyInput == CorrectKey then
             Fluent:Notify({ Title = "Thành công", Content = "Đang mở menu...", Duration = 3 })
             KeyWindow:Destroy()
             StartMainScript()
         else
-            Fluent:Notify({ Title = "Thất bại", Content = "Sai mã Key rồi!", Duration = 5 })
+            Fluent:Notify({ Title = "Thất bại", Content = "Mã Key không đúng!", Duration = 5 })
         end
     end
 })
