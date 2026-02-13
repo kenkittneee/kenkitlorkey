@@ -14,41 +14,30 @@ local Window = Fluent:CreateWindow({
     Title = "Kenkit Hub",
     SubTitle = "Hệ Thống Xác Thực",
     TabWidth = 160,
-    Size = UDim2.fromOffset(600, 400),
+    Size = UDim2.fromOffset(580, 460),
     Acrylic = true,
     Theme = "Dark",
     MinimizeKey = Enum.KeyCode.End
 })
 
-local KeyTab = Window:AddTab({ Title = "Xác Thực", Icon = "key" })
+local KeyTab = Window:AddTab({ Title = "Nhập Key", Icon = "key" })
+
+local MainTab = Window:AddTab({ Title = "Script Farm", Icon = "box" })
+local InfoTab = Window:AddTab({ Title = "Thông Tin", Icon = "info" })
 
 KeyTab:AddInput("InputKey", {
-    Title = "Nhập mã xác nhận:",
+    Title = "Mã xác nhận của Gia Bảo:",
     Callback = function(Value) KeyInput = Value end
 })
 
 KeyTab:AddButton({
-    Title = "Xác nhận truy cập",
+    Title = "Kích Hoạt Menu",
     Callback = function()
         if KeyInput == CorrectKey then
-            Fluent:Notify({ Title = "Thành công", Content = "Đang mở toàn bộ chức năng...", Duration = 2 })
+            Fluent:Notify({ Title = "Thành công!", Content = "Đã mở khóa toàn bộ Script!", Duration = 3 })
             
-            KeyTab:Destroy() 
+            Window:SelectTab(2) 
             
-            local Tabs = {
-                Main0 = Window:AddTab({ Title = "Thông Tin", Icon = "info" }),
-                Main1 = Window:AddTab({ Title = "Script Farm", Icon = "box" }),
-                Main2 = Window:AddTab({ Title = "Script Kaitun", Icon = "cpu" }),
-                Main5 = Window:AddTab({ Title = "Meme Sea", Icon = "smile" })
-            }
-
-            Tabs.Main0:AddParagraph({Title = "Chào mừng Gia Bảo!", Content = "Menu đã được mở khóa vĩnh viễn cho phiên này."})
-
-            Tabs.Main1:AddButton({Title = "Trau v9", Callback = function() pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/trungdao2k4/buffalo/refs/heads/main/traurobloxv9.lua"))() end) end})
-            Tabs.Main1:AddButton({Title = "Andepzai hub", Callback = function() pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/AnDepZaiHub/AnDepZaiHubBeta/refs/heads/main/AnDepZaiHubBeta.lua"))() end) end})
-            Tabs.Main2:AddButton({Title = "Kaitun (Lever)", Callback = function() pcall(function() loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/4365e6ab3c80828a24ba946f4d8ff946.lua"))() end) end})
-            Tabs.Main5:AddButton({Title = "Redz hub", Callback = function() pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/tlredz/Scripts/refs/heads/main/main.luau"))() end) end})
-
             local ScreenGui = Instance.new("ScreenGui", game:GetService("CoreGui"))
             ScreenGui.Name = "KenkitGui"
             local ImageButton = Instance.new("ImageButton", ScreenGui)
@@ -58,13 +47,34 @@ KeyTab:AddButton({
             ImageButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
             Instance.new("UICorner", ImageButton).CornerRadius = UDim.new(1, 0)
 
+            local dragging, dragStart, startPos
+            ImageButton.InputBegan:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                    dragging = true
+                    dragStart = input.Position
+                    startPos = ImageButton.Position
+                end
+            end)
+            UserInputService.InputChanged:Connect(function(input)
+                if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+                    local delta = input.Position - dragStart
+                    ImageButton.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+                end
+            end)
+            ImageButton.InputEnded:Connect(function() dragging = false end)
             ImageButton.MouseButton1Click:Connect(function() Window:Minimize() end)
-            
-            Window:SelectTab(1)
+
         else
-            Fluent:Notify({ Title = "Lỗi", Content = "Mã Key sai!", Duration = 5 })
+            Fluent:Notify({ Title = "Lỗi", Content = "Mã Key chưa đúng, hãy thử lại!", Duration = 5 })
         end
     end
 })
+
+InfoTab:AddParagraph({Title = "Chào mừng Gia Bảo!", Content = "Menu Kenkit đã sẵn sàng phục vụ."})
+
+MainTab:AddButton({Title = "Trau v9", Callback = function() pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/trungdao2k4/buffalo/refs/heads/main/traurobloxv9.lua"))() end) end})
+MainTab:AddButton({Title = "Andepzai hub", Callback = function() pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/AnDepZaiHub/AnDepZaiHubBeta/refs/heads/main/AnDepZaiHubBeta.lua"))() end) end})
+MainTab:AddButton({Title = "Kaitun (Lever)", Callback = function() pcall(function() loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/4365e6ab3c80828a24ba946f4d8ff946.lua"))() end) end})
+MainTab:AddButton({Title = "Redz hub", Callback = function() pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/tlredz/Scripts/refs/heads/main/main.luau"))() end) end})
 
 Window:SelectTab(1)
