@@ -4,7 +4,14 @@ local UserInputService = game:GetService("UserInputService")
 local CorrectKey = "0973453703" 
 local KeyInput = ""
 
-local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local Success, Fluent = pcall(function()
+    return loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+end)
+
+if not Success then 
+    warn("Khong the tai thu vien Fluent!")
+    return 
+end
 
 local Window = nil
 
@@ -24,7 +31,7 @@ function StartMainScript()
     ImageButton.Parent = ScreenGui
     ImageButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     ImageButton.Position = UDim2.new(0.1, 0, 0.15, 0)
-    ImageButton.Size = UDim2.new(0, 50, 0, 50)
+    ImageButton.Size = UDim2.new(0, 55, 0, 55)
     ImageButton.Image = "rbxassetid://112847886551666"
     ImageButton.ZIndex = 10 
 
@@ -74,13 +81,14 @@ function StartMainScript()
 
     Tabs.Main0:AddParagraph({Title = "Chào mừng!", Content = "Hệ thống đã sẵn sàng cho Gia Bảo!"})
 
-    Tabs.Main1:AddButton({Title = "Trau v9", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/trungdao2k4/buffalo/refs/heads/main/traurobloxv9.lua"))() end})
-    Tabs.Main1:AddButton({Title = "Andepzai hub", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/AnDepZaiHub/AnDepZaiHubBeta/refs/heads/main/AnDepZaiHubBeta.lua"))() end})
-    Tabs.Main1:AddButton({Title = "Quantum hub" , Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/flazhy/QuantumOnyx/refs/heads/main/QuantumOnyx.lua"))() end})
-    Tabs.Main2:AddButton({Title = "Kaitun (Lever)", Callback = function() loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/4365e6ab3c80828a24ba946f4d8ff946.lua"))() end})
-    Tabs.Main3:AddButton({Title = "Hermanos hub", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/hermanos-dev/hermanos-hub/refs/heads/main/Loader.lua"))() end})
-    Tabs.Main4:AddButton({Title = "Cyrus hub", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/CyrusOffc/scriptcyrus/refs/heads/main/roblox/loader.lua"))() end})
-    Tabs.Main5:AddButton({Title = "Redz hub", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/tlredz/Scripts/refs/heads/main/main.luau"))() end})
+    -- Buttons
+    Tabs.Main1:AddButton({Title = "Trau v9", Callback = function() pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/trungdao2k4/buffalo/refs/heads/main/traurobloxv9.lua"))() end) end})
+    Tabs.Main1:AddButton({Title = "Andepzai hub", Callback = function() pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/AnDepZaiHub/AnDepZaiHubBeta/refs/heads/main/AnDepZaiHubBeta.lua"))() end) end})
+    Tabs.Main1:AddButton({Title = "Quantum hub" , Callback = function() pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/flazhy/QuantumOnyx/refs/heads/main/QuantumOnyx.lua"))() end) end})
+    Tabs.Main2:AddButton({Title = "Kaitun (Lever)", Callback = function() pcall(function() loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/4365e6ab3c80828a24ba946f4d8ff946.lua"))() end) end})
+    Tabs.Main3:AddButton({Title = "Hermanos hub", Callback = function() pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/hermanos-dev/hermanos-hub/refs/heads/main/Loader.lua"))() end) end})
+    Tabs.Main4:AddButton({Title = "Cyrus hub", Callback = function() pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/CyrusOffc/scriptcyrus/refs/heads/main/roblox/loader.lua"))() end) end})
+    Tabs.Main5:AddButton({Title = "Redz hub", Callback = function() pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/tlredz/Scripts/refs/heads/main/main.luau"))() end) end})
 
     Fluent:Notify({ Title = "Kenkit Hub", Content = "Đã mở Menu thành công!", Duration = 5 })
 end
@@ -98,7 +106,7 @@ local KeyTab = KeyWindow:AddTab({ Title = "Nhập Key", Icon = "key" })
 
 KeyTab:AddParagraph({
     Title = "Yêu cầu mã truy cập",
-    Content = "Hãy nhập mã Key của Gia Bảo (0973453703) để tiếp tục."
+    Content = "Key: 0973453703"
 })
 
 KeyTab:AddInput("InputKey", {
@@ -112,7 +120,6 @@ KeyTab:AddInput("InputKey", {
 
 KeyTab:AddButton({
     Title = "Xác nhận",
-    Description = "Kiểm tra mã Key của bạn",
     Callback = function()
         if KeyInput == CorrectKey then
             Fluent:Notify({ Title = "Thành công", Content = "Key chính xác!", Duration = 2 })
@@ -120,7 +127,7 @@ KeyTab:AddButton({
             task.wait(0.5)
             StartMainScript()
         else
-            Fluent:Notify({ Title = "Thất bại", Content = "Sai mã Key rồi bạn ơi!", Duration = 5 })
+            Fluent:Notify({ Title = "Thất bại", Content = "Sai mã Key!", Duration = 5 })
         end
     end
 })
