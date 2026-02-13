@@ -93,7 +93,7 @@ function StartMainScript()
 
     Tabs.Main1:AddButton({Title = "Trau v9", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/trungdao2k4/buffalo/refs/heads/main/traurobloxv9.lua"))() end})
     Tabs.Main1:AddButton({Title = "Andepzai hub", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/AnDepZaiHub/AnDepZaiHubBeta/refs/heads/main/AnDepZaiHubBeta.lua"))() end})
-    Tabs.Main1:AddButton({Title = "Quantum hub" , Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/flazhy/QuantumOnyx/refs/heads/main/QuantumOnyx.lua"))()
+    Tabs.Main1:AddButton({Title = "Quantum hub" , Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/flazhy/QuantumOnyx/refs/heads/main/QuantumOnyx.lua"))() end})
     Tabs.Main2:AddButton({Title = "Kaitun (Lever)", Callback = function() loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/4365e6ab3c80828a24ba946f4d8ff946.lua"))() end})
     Tabs.Main3:AddButton({Title = "Hermanos hub", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/hermanos-dev/hermanos-hub/refs/heads/main/Loader.lua"))() end})
     Tabs.Main4:AddButton({Title = "Cyrus hub", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/CyrusOffc/scriptcyrus/refs/heads/main/roblox/loader.lua"))() end})
