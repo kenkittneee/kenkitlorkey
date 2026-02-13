@@ -19,11 +19,12 @@ function StartMainScript()
 
     ScreenGui.Parent = game:GetService("CoreGui")
     ScreenGui.Name = "KenkitGui"
+    ScreenGui.ResetOnSpawn = false
     
     ImageButton.Parent = ScreenGui
     ImageButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     ImageButton.Position = UDim2.new(0.1, 0, 0.15, 0)
-    ImageButton.Size = UDim2.new(0, 50, 0, 50) -- Tăng nhẹ kích thước nút icon cho cân đối
+    ImageButton.Size = UDim2.new(0, 50, 0, 50)
     ImageButton.Image = "rbxassetid://112847886551666"
     ImageButton.ZIndex = 10 
 
@@ -59,7 +60,7 @@ function StartMainScript()
     })
 
     ImageButton.MouseButton1Click:Connect(function()
-        Window:Minimize() 
+        Window:Minimize()
     end)
 
     local Tabs = {
@@ -73,19 +74,4 @@ function StartMainScript()
 
     Tabs.Main0:AddParagraph({Title = "Chào mừng!", Content = "Hệ thống đã sẵn sàng cho Gia Bảo!"})
 
-    Tabs.Main1:AddButton({Title = "Trau v9", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/trungdao2k4/buffalo/refs/heads/main/traurobloxv9.lua"))() end})
-    Tabs.Main1:AddButton({Title = "Andepzai hub", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/AnDepZaiHub/AnDepZaiHubBeta/refs/heads/main/AnDepZaiHubBeta.lua"))() end})
-    Tabs.Main1:AddButton({Title = "Quantum hub" , Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/flazhy/QuantumOnyx/refs/heads/main/QuantumOnyx.lua"))() end})
-    Tabs.Main2:AddButton({Title = "Kaitun (Lever)", Callback = function() loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/4365e6ab3c80828a24ba946f4d8ff946.lua"))() end})
-    Tabs.Main3:AddButton({Title = "Hermanos hub", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/hermanos-dev/hermanos-hub/refs/heads/main/Loader.lua"))() end})
-    Tabs.Main4:AddButton({Title = "Cyrus hub", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/CyrusOffc/scriptcyrus/refs/heads/main/roblox/loader.lua"))() end})
-    Tabs.Main5:AddButton({Title = "Redz hub", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/tlredz/Scripts/refs/heads/main/main.luau"))() end})
-
-    Fluent:Notify({ Title = "Kenkit Hub", Content = "Đã kích hoạt menu!", Duration = 5 })
-end
-
-local KeyWindow = Fluent:CreateWindow({
-    Title = "Hệ Thống Xác Thực",
-    SubTitle = "Kenkit Hub - Protection",
-    TabWidth = 160,
-    Size = UDim2.fromOffset(600, 400)
+    Tabs.Main1:AddButton({Title = "Trau v9", Callback = function() loadstring(game:HttpGet("
