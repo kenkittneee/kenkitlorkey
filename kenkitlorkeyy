@@ -74,4 +74,55 @@ function StartMainScript()
 
     Tabs.Main0:AddParagraph({Title = "Chào mừng!", Content = "Hệ thống đã sẵn sàng cho Gia Bảo!"})
 
-    Tabs.Main1:AddButton({Title = "Trau v9", Callback = function() loadstring(game:HttpGet("
+    Tabs.Main1:AddButton({Title = "Trau v9", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/trungdao2k4/buffalo/refs/heads/main/traurobloxv9.lua"))() end})
+    Tabs.Main1:AddButton({Title = "Andepzai hub", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/AnDepZaiHub/AnDepZaiHubBeta/refs/heads/main/AnDepZaiHubBeta.lua"))() end})
+    Tabs.Main1:AddButton({Title = "Quantum hub" , Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/flazhy/QuantumOnyx/refs/heads/main/QuantumOnyx.lua"))() end})
+    Tabs.Main2:AddButton({Title = "Kaitun (Lever)", Callback = function() loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/4365e6ab3c80828a24ba946f4d8ff946.lua"))() end})
+    Tabs.Main3:AddButton({Title = "Hermanos hub", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/hermanos-dev/hermanos-hub/refs/heads/main/Loader.lua"))() end})
+    Tabs.Main4:AddButton({Title = "Cyrus hub", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/CyrusOffc/scriptcyrus/refs/heads/main/roblox/loader.lua"))() end})
+    Tabs.Main5:AddButton({Title = "Redz hub", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/tlredz/Scripts/refs/heads/main/main.luau"))() end})
+
+    Fluent:Notify({ Title = "Kenkit Hub", Content = "Đã mở Menu thành công!", Duration = 5 })
+end
+
+local KeyWindow = Fluent:CreateWindow({
+    Title = "Hệ Thống Xác Thực",
+    SubTitle = "Kenkit Hub - Protection",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(600, 400),
+    Acrylic = true,
+    Theme = "Dark"
+})
+
+local KeyTab = KeyWindow:AddTab({ Title = "Nhập Key", Icon = "key" })
+
+KeyTab:AddParagraph({
+    Title = "Yêu cầu mã truy cập",
+    Content = "Hãy nhập mã Key của Gia Bảo (0973453703) để tiếp tục."
+})
+
+KeyTab:AddInput("InputKey", {
+    Title = "Vui lòng nhập Key:",
+    Default = "",
+    Placeholder = "Nhập mã tại đây...",
+    Callback = function(Value)
+        KeyInput = Value
+    end
+})
+
+KeyTab:AddButton({
+    Title = "Xác nhận",
+    Description = "Kiểm tra mã Key của bạn",
+    Callback = function()
+        if KeyInput == CorrectKey then
+            Fluent:Notify({ Title = "Thành công", Content = "Key chính xác!", Duration = 2 })
+            KeyWindow:Destroy()
+            task.wait(0.5)
+            StartMainScript()
+        else
+            Fluent:Notify({ Title = "Thất bại", Content = "Sai mã Key rồi bạn ơi!", Duration = 5 })
+        end
+    end
+})
+
+KeyWindow:SelectTab(1)
