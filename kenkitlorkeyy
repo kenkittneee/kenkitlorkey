@@ -106,7 +106,7 @@ local KeyTab = KeyWindow:AddTab({ Title = "Nhập Key", Icon = "key" })
 
 KeyTab:AddParagraph({
     Title = "Yêu cầu mã truy cập",
-    Content = "Key: 0973453703"
+    Content = "Yêu cầu hỏi chủ script"
 })
 
 KeyTab:AddInput("InputKey", {
