@@ -33,13 +33,7 @@ function StartMainScript()
     ImageButton.MouseLeave:Connect(function()
         TweenService:Create(ImageButton, TweenInfo.new(0.3), {Size = UDim2.new(0, 45, 0, 45), BackgroundColor3 = Color3.fromRGB(0, 0, 0)}):Play()
     end)
-    ImageButton.MouseButton1Down:Connect(function()
-        TweenService:Create(ImageButton, TweenInfo.new(0.1), {Size = UDim2.new(0, 38, 0, 38)}):Play()
-    end)
-    ImageButton.MouseButton1Up:Connect(function()
-        TweenService:Create(ImageButton, TweenInfo.new(0.1), {Size = UDim2.new(0, 45, 0, 45)}):Play()
-    end)
-
+    
     local dragging, dragInput, dragStart, startPos
     local function update(input)
         local delta = input.Position - dragStart
@@ -57,20 +51,17 @@ function StartMainScript()
             end)
         end
     end)
-    ImageButton.InputChanged:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-            dragInput = input
-        end
-    end)
     UserInputService.InputChanged:Connect(function(input)
-        if input == dragInput and dragging then update(input) end
+        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+            if dragging then update(input) end
+        end
     end)
 
     local Window = Fluent:CreateWindow({
         Title = "Kenkit Tổng Hợp",
         SubTitle = "by Gia Bao Dep Trai",
         TabWidth = 157,
-        Size = UDim2.fromOffset(555, 320),
+        Size = UDim2.fromOffset(580, 400), -- Tăng kích thước menu chính
         Acrylic = true,
         Theme = "Dark",
         MinimizeKey = Enum.KeyCode.End
@@ -99,14 +90,14 @@ function StartMainScript()
     Tabs.Main4:AddButton({Title = "Cyrus hub", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/CyrusOffc/scriptcyrus/refs/heads/main/roblox/loader.lua"))() end})
     Tabs.Main5:AddButton({Title = "Redz hub", Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/tlredz/Scripts/refs/heads/main/main.luau"))() end})
 
-    Fluent:Notify({ Title = "Kenkit Hub", Content = "Đã kích hoạt hiệu ứng mượt mà!", Duration = 5 })
+    Fluent:Notify({ Title = "Kenkit Hub", Content = "Đã kích hoạt menu!", Duration = 5 })
 end
 
 local KeyWindow = Fluent:CreateWindow({
     Title = "Hệ Thống Xác Thực",
     SubTitle = "Kenkit Hub - Gia Bảo Đẹp Trai",
     TabWidth = 160,
-    Size = UDim2.fromOffset(400, 230),
+    Size = UDim2.fromOffset(500, 350), -- BẢNG KEY TO HƠN (Cũ là 400x230)
     Acrylic = true,
     Theme = "Dark"
 })
@@ -116,22 +107,34 @@ local KeyTab = KeyWindow:AddTab({ Title = "Nhập Key", Icon = "key" })
 local KeyInputObject = KeyTab:AddInput("InputKey", {
     Title = "Vui lòng nhập mã Key:",
     Default = "",
-    Placeholder = "Nhập Key tại đây...",
+    Placeholder = "Nhập mã xác nhận tại đây...",
     Callback = function(Value)
-        KeyInput = Value -- Cập nhật KeyInput mỗi khi gõ
+        KeyInput = Value
     end
 })
 
 KeyTab:AddButton({
     Title = "Xác nhận Key",
+    Description = "Bấm vào đây sau khi đã nhập đúng mã",
     Callback = function()
-        -- Kiểm tra key có khớp không
+        -- In ra console để debug nếu cần (nhấn F9 trong game)
+        print("Key ban nhap la: " .. tostring(KeyInput))
+        
         if KeyInput == CorrectKey then
-            Fluent:Notify({ Title = "Thành công", Content = "Đang mở menu...", Duration = 3 })
+            Fluent:Notify({ Title = "Thành công", Content = "Đang mở menu chính...", Duration = 3 })
             KeyWindow:Destroy()
+            -- Chờ 0.5 giây để tránh lỗi chồng chéo UI
+            task.wait(0.5)
             StartMainScript()
         else
-            Fluent:Notify({ Title = "Thất bại", Content = "Mã Key không đúng!", Duration = 5 })
+            Fluent:Notify({ 
+                Title = "Thất bại", 
+                Content = "Mã Key '" .. tostring(KeyInput) .. "' không đúng!", 
+                Duration = 5 
+            })
         end
     end
 })
+
+-- Thông báo khi load script
+Fluent:Notify({ Title = "Xác thực", Content = "Vui lòng nhập Key để sử dụng Kenkit Hub", Duration = 5 })
